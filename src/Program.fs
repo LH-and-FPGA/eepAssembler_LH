@@ -70,9 +70,16 @@ type IWord =
         static member Imm8Bit b = uint32 <| if b then (1 <<< 8) else 0
         // 类似于 JmpInvBit，表示立即数的第 8 位标志。
         static member RaField n = uint32 (n <<< 9)
+        // 输入 n（寄存器编号），将其左移 9 位后转换为 uint32。这个就是Ra.
         static member RbField n = uint32 (n <<< 5)
+        // 同理，这个是Rb.
         static member RcField n = uint32 (n <<< 2)
+        // 同理，这个是Rc.
+
+        // 以下特殊操作字段
         static member ShiftOpcField n = uint32 (((n &&& 1) <<< 4) + ((n &&& 2) <<< 8 - 1))
+        // 生成一个表示移位操作码字段的值。
+        // 有点儿累了，就先看到这儿吧
         static member Rb b = IWord.RbField b
         static member Imm8Field n = uint32 ( n &&& 0xFF)
         static member MemOp n = uint32 0x8000u + (uint32 n <<< 12)
